@@ -1,0 +1,8 @@
+label {
+  margin-left: 10px;
+}
+.has-error {
+  background-color: #FF0000;
+  border-radius: 5px;
+  color: white;
+}

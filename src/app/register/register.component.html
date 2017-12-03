@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+    <form novalidate [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
+      <div *ngIf="errors" class="alert alert-danger">
+        <div *ngFor="let error of errors | serverErrors">{{error}}</div>
+      </div>
+      
+      <div class="form-group" [ngClass]="{'has-error':!registerForm.controls['name'].valid && registerForm.controls['name'].touched}">
+        <label for="name">Name</label>
+        <form-errors *ngIf="registerForm.controls['name'].touched" [fieldName]="'name'" [fieldControl]="registerForm.controls['name']"></form-errors>
+        
+        <input class="form-control" type="text" placeholder="John Doe" [formControl]="registerForm.controls['name']">
+      </div>
+      <div class="form-group" [ngClass]="{'has-error':!registerForm.controls['email'].valid && registerForm.controls['email'].touched}">
+        <label for="email">Email</label>
+        <form-errors *ngIf="registerForm.controls['email'].touched" [fieldName]="'email'" [fieldControl]="registerForm.controls['email']"></form-errors>
+        
+        <input class="form-control" type="email" placeholder="example@mail.com" [formControl]="registerForm.controls['email']">
+      </div>
+      <div class="form-group" [ngClass]="{'has-error':!registerForm.controls['age'].valid && registerForm.controls['age'].touched}">
+        <label for="age">Age</label>
+        <form-errors *ngIf="registerForm.controls['age'].touched" [fieldName]="'age'" [fieldControl]="registerForm.controls['age']"></form-errors>
+        
+        <input class="form-control" type="number" [formControl]="registerForm.controls['age']">
+      </div>
+      <div class="form-group" [ngClass]="{'has-error':!registerForm.controls['password'].valid && registerForm.controls['password'].touched}">
+        <label for="password">Password</label>
+        <form-errors *ngIf="registerForm.controls['password'].touched" [fieldName]="'password'" [fieldControl]="registerForm.controls['password']"></form-errors>
+        
+        <input class="form-control" type="password" placeholder="********" [formControl]="registerForm.controls['password']">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default" [disabled]="!registerForm.valid || requestInProgress">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
