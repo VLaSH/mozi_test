@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
   var newUser = new User(req.body);
   newUser.save()
     .then(function() {
-      jwt.createToken(newUser)
+      jwt.createToken(newUser.email)
         .then(function(token) {
           res.status(201).send({ id: newUser._id, access_token: token });
         })
