@@ -41,7 +41,8 @@
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4",
     "ts-helpers": "^1.1.1",
-    "zone.js": "^0.7.2"
+    "zone.js": "^0.7.2",
+    "angular-cli": "1.0.0-beta.28.3",
   },
   "devDependencies": {
     "@angular/compiler-cli": "^2.3.1",
