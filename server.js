@@ -31,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Set our api routes
 app.use('/api', api);
 
-app.use(jwt({ secret: process.env.JWT_SECRET }).unless({
+app.use(jwt({ secret: process.env.JWT_SECRET || 'secret' }).unless({
   path: [
     { url: '/register', methods: ['GET']  },
     { url: '/login', methods: ['GET']  },

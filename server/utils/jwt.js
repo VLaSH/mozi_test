@@ -2,7 +2,7 @@ var jwt = require('jsonwebtoken');
 
 function createToken(payload = {}) {
   return new Promise(function(resolve, reject) {
-    jwt.sign(payload, process.env.JWT_SECRET, function(err, token) {
+    jwt.sign(payload, process.env.JWT_SECRET || 'secret', function(err, token) {
       if(err) {
         reject(err);
       } else {
@@ -18,7 +18,7 @@ function verifyToken(token) {
       reject('no token supplied');
     }
     
-    jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+    jwt.verify(token, process.env.JWT_SECRET || 'secret', function(err, decoded) {
       if(err) {
         reject(err);
       } else {
