@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  SOCKET_HOST: 'http://localhost:3000'
+  SOCKET_HOST: 'https://mozi-test-vs.herokuapp.com'
 };
