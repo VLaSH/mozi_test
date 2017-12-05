@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
-import { Router } from '@angular/router/src/router';
+import { Router } from '@angular/router';
 import { MoodService } from 'app/services/mood.service';
 import { Subscription } from 'rxjs/Subscription';
 

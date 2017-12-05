@@ -1,35 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptions, Headers, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { HttpClient, } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class UserService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
   
   // Get all posts from the API
   create(params) {
-    return this.http.post('/api/users', params, this.jwt())
-            .map((response: Response) => {
-              localStorage.setItem('access_token', response.json()['access_token'])
-              localStorage.setItem('current_user', response.json()['id'])
-              return response.json();
+    return this.http.post('/api/users', params)
+            .map((response) => {
+              localStorage.setItem('access_token', response['access_token'])
+              return response;
             });
   }
 
-  get(id) {
-    return this.http.get(`/api/users/${id}`, this.jwt())
-            .map((response: Response) => {
-              return response.json();
+  get() {
+    return this.http.get(`/api/users`)
+            .map((response) => {
+              return response;
             })
-  }
-
-  private jwt() {
-    // create authorization header with jwt token
-    let access_token = localStorage.getItem('access_token');
-    if (access_token) {
-      let headers = new Headers({ 'Authorization': 'Bearer ' + access_token });
-      return new RequestOptions({ headers: headers });
-    }
   }
 }

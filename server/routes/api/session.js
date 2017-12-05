@@ -6,7 +6,7 @@ const jwt = require('../../utils/jwt');
 router.post('/', (req, res) => {
   User.authenticate(req.body)
     .then(function(user) {
-      jwt.createToken(req.body.email)
+      jwt.createToken({ email: user.email, id: user._id })
         .then(function(token) {
           res.status(200).send({ id: user._id, access_token: token });
         })

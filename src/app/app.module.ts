@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './register/register.component';
@@ -18,6 +18,7 @@ import { AuthenticatedComponent } from './layout/authenticated/authenticated.com
 import { GuestGuard } from 'app/guards/guest.guard';
 import { MoodService } from 'app/services/mood.service';
 import { ServerErrorsPipe } from './server-errors.pipe';
+import { AuthInterceptor } from 'app/services/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { ServerErrorsPipe } from './server-errors.pipe';
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpModule,
+    HttpClientModule,
     routing
   ],
   providers: [
@@ -43,7 +44,12 @@ import { ServerErrorsPipe } from './server-errors.pipe';
     GuestGuard,
     UserService,
     AuthService,
-    MoodService
+    MoodService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

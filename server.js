@@ -28,20 +28,19 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Set our api routes
-app.use('/api', api);
-
 app.use(jwt({ secret: process.env.JWT_SECRET || 'secret' }).unless({
   path: [
     { url: '/register', methods: ['GET']  },
     { url: '/login', methods: ['GET']  },
     { url: '/user-details', methods: ['GET']  },
-    { url: '/api/users', methods: ['POST']  },
-    { url: '/api/users/:id', methods: ['GET']  },
-    { url: '/api/session/', methods: ['POST']  },
-    '/socket.io/'
+    { url: '/api/users', methods: ['POST']  }, // Not protected because this endpoint creates new user and token
+    { url: '/api/session', methods: ['POST']  } // Not protected because this endpoint creates new session and token
   ]
 }));
+
+// Set our api routes
+app.use('/api', api);
+
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));

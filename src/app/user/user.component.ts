@@ -9,10 +9,8 @@ import { UserService } from 'app/services/user.service';
 export class UserComponent implements OnInit {
   user: any = {};
 
-  constructor(private userService: UserService) { 
-    let userId = localStorage.getItem('current_user');
-    
-    userService.get(userId)
+  constructor(private userService: UserService) {    
+    userService.get()
       .subscribe(result => {
         this.user = result;
       });

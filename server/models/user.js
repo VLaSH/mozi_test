@@ -35,15 +35,15 @@ UserSchema.pre('validate', function(next) {
   next();
 });
 
-UserSchema.statics.authenticate = function(userParams = {}) {
+UserSchema.statics.authenticate = function({ email: email, password: password }) {
   return new Promise((resolve, reject) => {    
-    if(!userParams.email && !userParams.password) {
+    if(!email && !password) {
       reject('No email or password supplied');
     }
   
-    var password = encrypt(userParams.password);
+    var encryptedPass = encrypt(password);
   
-    this.findOne({ email: userParams.email, password: password })
+    this.findOne({ email: email, password: encryptedPass })
       .then(function(obj) {
         if(obj) {
           resolve(obj);

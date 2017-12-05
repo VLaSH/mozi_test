@@ -3,6 +3,7 @@ import * as io from "socket.io-client";
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 import { environment } from 'environments/environment';
+import { JWT } from 'app/utils/jwt';
 
 @Injectable()
 export class MoodService {
@@ -12,13 +13,20 @@ export class MoodService {
   constructor() { }
 
   startSending() {
-    this.socket = io(environment.SOCKET_HOST, { path: '/socket' });
+    let token = JWT.getAuthToken();
+
+    this.socket = io(environment.SOCKET_HOST, { path: '/socket', transportOptions: {
+      polling: {
+        extraHeaders: {
+          'authorization': `Bearer ${JWT.getAuthToken()}`
+        }
+      }
+    } });
     
     this.intervalSubscription = Observable.interval(5000)
                                   .subscribe((num) => {
                                     this.socket.emit('mood', {
-                                      moodValue: this.generateMood(),
-                                      userId: this.getUserId()
+                                      moodValue: this.generateMood()
                                     });
                                   });
 
@@ -38,9 +46,5 @@ export class MoodService {
 
   private generateMood() {
     return Math.floor(Math.random() * (100 - 0 + 1)) + 0;
-  }
-
-  private getUserId() {
-    return localStorage.getItem('current_user');
   }
 }

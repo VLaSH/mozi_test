@@ -12,6 +12,8 @@ function createToken(payload = {}) {
   })
 }
 
+// One of edge cases. If token is invalid 401 is sent to client.
+// If it is socket connection, the handshake is considered invalid.
 function verifyToken(token) {
   return new Promise(function(resolve, reject) {
     if(!token) {
@@ -22,13 +24,23 @@ function verifyToken(token) {
       if(err) {
         reject(err);
       } else {
-        resolve(token)
+        resolve(decoded)
       }
     })
   })
 }
 
+function authorizeRequest(authHeader) {
+  if(authHeader && authHeader.match('Bearer')) {
+    let [, token] = authHeader.split(' ');
+    return verifyToken(token);
+  }
+
+  return Promise.reject('no token specified');
+}
+
 module.exports = {
   createToken,
-  verifyToken
+  verifyToken,
+  authorizeRequest
 };

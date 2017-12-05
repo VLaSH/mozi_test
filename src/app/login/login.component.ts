@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms/src/form_builder';
-import { FormGroup } from '@angular/forms/src/model';
+import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { EmailValidator } from 'app/validators/email.validator';
-import { Validators } from '@angular/forms/src/validators';
+import { Validators } from '@angular/forms';
 import { AuthService } from 'app/services/auth.service';
-import { Router } from '@angular/router/src/router';
+import { Router } from '@angular/router';
 import { LoginModel } from 'app/models/login.model';
 
 @Component({
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
       .subscribe(result => {
         this.router.navigate(['/user-details']);
       }, response => {
-        this.errors = response.json();
+        this.errors = response.error;
       })
   }
 }

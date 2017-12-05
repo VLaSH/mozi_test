@@ -7,7 +7,7 @@ router.post('/', (req, res) => {
   var newUser = new User(req.body);
   newUser.save()
     .then(function() {
-      jwt.createToken(newUser.email)
+      jwt.createToken({ email: newUser.email, id: newUser._id })
         .then(function(token) {
           res.status(201).send({ id: newUser._id, access_token: token });
         })
@@ -20,10 +20,12 @@ router.post('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-  User.findById(req.params.id)
+router.get('/', (req, res) => {
+  jwt.authorizeRequest(req.headers['authorization'])
+    .then(function(decoded) {
+      return User.findById(decoded.id)
+    })
     .then(function(user) {
-      console.log(user)
       if(user) {
         res.status(200).send(user);
       }
@@ -33,7 +35,6 @@ router.get('/:id', (req, res) => {
     .catch(function(err) {
       res.status(422).send(err)
     })
-
 })
 
 module.exports = router;
